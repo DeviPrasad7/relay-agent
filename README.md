@@ -1,38 +1,54 @@
 # 🔍 Relay — Distributed Incident Analysis System
 
 <div align="center">
-
+  
 [![Go Version](https://img.shields.io/badge/Go-1.23-blue.svg?style=for-the-badge\&logo=go)](https://golang.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?style=for-the-badge\&logo=docker)](https://www.docker.com/)
 [![Grafana](https://img.shields.io/badge/Grafana-Dashboard-F46800.svg?style=for-the-badge\&logo=grafana)](https://grafana.com/)
-
-### AI-powered incident detection, correlation, and root-cause analysis for distributed systems
-
-Relay continuously ingests telemetry from distributed services, detects anomalies, correlates related events, and generates actionable root-cause analysis using pluggable Large Language Models.
-
+[![LLM](https://img.shields.io/badge/LLM-Groq%20%7C%20OpenAI%20%7C%20DeepSeek-00C7B7.svg?style=for-the-badge)](#ai-analysis-configuration)
+  
 </div>
+
+## 🚨 Stop digging through thousands of logs during incidents
+
+Relay automatically detects anomalies, correlates failures across services, and generates AI-powered root-cause analysis for distributed systems.
+
 
 ---
 
-## Overview
+## 🚀 Overview
 
-Modern distributed systems generate massive volumes of logs, traces, metrics, and deployment events. Identifying the actual cause of an incident often requires manually correlating signals across multiple services and infrastructure components.
+Modern distributed systems generate huge volumes of logs, traces, metrics, and deployment events. During incidents, engineers often spend significant time manually correlating these signals to identify the root cause.
 
-Relay automates this process by:
+Relay automates that workflow by:
 
 * Collecting operational telemetry
 * Detecting anomalous behavior
 * Correlating related events into incidents
 * Enriching incidents with deployment context
-* Generating structured root-cause analysis using AI
+* Generating actionable root-cause analysis using AI
 
-The platform is designed around clean architecture principles, making every component independently replaceable and extensible.
+Built with clean architecture principles, Relay is modular, extensible, and designed for self-hosted deployments.
 
 ---
 
-## Features
+## ✨ Why Relay?
 
-### Telemetry Ingestion
+When an outage occurs, engineers typically need to:
+
+* Search logs across multiple services
+* Identify related failures
+* Correlate deployment events
+* Determine the most likely root cause
+* Produce incident reports
+
+Relay automates this investigation process by grouping anomalies into incidents and generating structured root-cause analysis within seconds.
+
+---
+
+## 📦 Features
+
+### 📡 Telemetry Ingestion
 
 * HTTP API for log ingestion
 * Distributed trace ingestion
@@ -40,7 +56,7 @@ The platform is designed around clean architecture principles, making every comp
 * Service heartbeat monitoring
 * Input validation and normalization
 
-### Anomaly Detection
+### 🔎 Anomaly Detection
 
 Built-in detectors include:
 
@@ -50,14 +66,14 @@ Built-in detectors include:
 
 Additional detectors can be added through the detector interface without modifying orchestration logic.
 
-### Incident Correlation
+### 🔗 Incident Correlation
 
 * Temporal grouping of related anomalies
 * Deployment-aware incident enrichment
 * Cross-service incident consolidation
 * Unified incident timeline generation
 
-### AI-Assisted Root Cause Analysis
+### 🤖 AI-Assisted Root Cause Analysis
 
 * Structured RCA generation
 * OpenAI-compatible provider abstraction
@@ -65,7 +81,7 @@ Additional detectors can be added through the detector interface without modifyi
 * SHA-256 response caching
 * Configurable prompt generation
 
-### Reporting & Observability
+### 📊 Reporting & Observability
 
 * Built-in web dashboard
 * Incident history view
@@ -74,7 +90,7 @@ Additional detectors can be added through the detector interface without modifyi
 * JSON incident reports
 * Markdown incident reports
 
-### Reliability
+### ⚙️ Reliability
 
 * Idempotent processing pipeline
 * Persistent orchestration state
@@ -84,7 +100,7 @@ Additional detectors can be added through the detector interface without modifyi
 
 ---
 
-## Architecture
+## 🧠 Architecture
 
 ```text
 ┌─────────────────────────────────────────────┐
@@ -121,7 +137,7 @@ Additional detectors can be added through the detector interface without modifyi
 
 ---
 
-## Detection Pipeline
+## ⚙️ Detection Pipeline
 
 The orchestration engine executes on a configurable interval (default: 60 seconds).
 
@@ -136,7 +152,7 @@ The orchestration engine executes on a configurable interval (default: 60 second
 
 ---
 
-## Example Incident
+## 📋 Example Incident
 
 ### Detected Incident
 
@@ -166,7 +182,7 @@ The orchestration engine executes on a configurable interval (default: 60 second
 
 ---
 
-## Technology Stack
+## 🛠️ Technology Stack
 
 | Component          | Technology                                   |
 | ------------------ | -------------------------------------------- |
@@ -182,7 +198,7 @@ The orchestration engine executes on a configurable interval (default: 60 second
 
 ---
 
-## Getting Started
+## 🏃 Getting Started
 
 ### Prerequisites
 
@@ -217,7 +233,7 @@ docker compose -f docker-compose.grafana.yml up --build -d
 
 ---
 
-## Sample Telemetry Ingestion
+## 📡 Sample Telemetry Ingestion
 
 ### Log Event
 
@@ -244,7 +260,7 @@ curl -X POST http://localhost:8080/ingest/log \
 
 ---
 
-## AI Analysis Configuration
+## 🤖 AI Analysis Configuration
 
 Relay supports any OpenAI-compatible inference endpoint.
 
@@ -296,7 +312,7 @@ docker compose -f docker-compose.grafana.yml up --build -d
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 relay-agent/
@@ -326,7 +342,7 @@ relay-agent/
 
 ---
 
-## Extending Relay
+## 🔌 Extending Relay
 
 ### Custom Detectors
 
@@ -342,7 +358,7 @@ The repository abstraction allows migration from SQLite to PostgreSQL or other d
 
 ---
 
-## Roadmap
+## 🗺️ Roadmap
 
 * Kubernetes auto-remediation workflows
 * Native Prometheus exporter
@@ -356,7 +372,7 @@ The repository abstraction allows migration from SQLite to PostgreSQL or other d
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome.
 
@@ -365,6 +381,6 @@ Contributions are welcome.
 3. Commit your changes
 4. Submit a pull request
 
-For major changes, open an issue first to discuss the proposed design.
+For major changes, please open an issue first to discuss the proposed design.
 
 ---
