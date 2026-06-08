@@ -1,12 +1,18 @@
 version: '3.8'
+
 services:
   relay-agent:
     build: .
     ports:
       - "8080:8080"
     environment:
-      - LLM_PROVIDER=mock
-      - DEEPSEEK_API_KEY=dummy   # optional, silences warning
+      - LLM_PROVIDER=${LLM_PROVIDER}
+      - LLM_BASE_URL=${LLM_BASE_URL}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - LLM_MODEL=${LLM_MODEL}
+      - LLM_MAX_TOKENS=${LLM_MAX_TOKENS}
+      - LLM_TIMEOUT_SECONDS=${LLM_TIMEOUT_SECONDS}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
     volumes:
       - ./data:/data
       - ./configs/config.yaml:/root/configs/config.yaml

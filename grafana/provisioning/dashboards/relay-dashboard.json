@@ -1,0 +1,65 @@
+{
+  "title": "Relay Agent - Observability Dashboard",
+  "panels": [
+    {
+      "title": "Incidents Over Time",
+      "type": "graph",
+      "datasource": "SQLite",
+      "targets": [
+        {
+          "rawSql": "SELECT datetime(incident_time, 'unixepoch') as time, count(*) as value FROM incidents GROUP BY incident_time ORDER BY incident_time",
+          "format": "time_series"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 }
+    },
+    {
+      "title": "Error Rate by Service (last 1h)",
+      "type": "graph",
+      "datasource": "SQLite",
+      "targets": [
+        {
+          "rawSql": "SELECT datetime(timestamp, 'unixepoch') as time, CAST(SUM(CASE WHEN severity='error' THEN 1 ELSE 0 END) AS REAL)/COUNT(*) as error_rate, service FROM logs WHERE timestamp > strftime('%s', 'now', '-1 hour') GROUP BY service, time ORDER BY time",
+          "format": "time_series"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 }
+    },
+    {
+      "title": "p95 Latency by Service (last 1h)",
+      "type": "graph",
+      "datasource": "SQLite",
+      "targets": [
+        {
+          "rawSql": "SELECT datetime(timestamp, 'unixepoch') as time, duration_ms, service FROM traces WHERE timestamp > strftime('%s', 'now', '-1 hour')",
+          "format": "time_series"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 }
+    },
+    {
+      "title": "Heartbeat Health (last 5 min)",
+      "type": "table",
+      "datasource": "SQLite",
+      "targets": [
+        {
+          "rawSql": "SELECT service, MAX(timestamp) as last_heartbeat, CASE WHEN MAX(timestamp) > strftime('%s', 'now', '-5 minute') THEN 'OK' ELSE 'MISSING' END as status FROM events WHERE type='heartbeat' GROUP BY service"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 }
+    },
+    {
+      "title": "Recent Incidents",
+      "type": "table",
+      "datasource": "SQLite",
+      "targets": [
+        {
+          "rawSql": "SELECT id, datetime(incident_time,'unixepoch') as time, detection_method, resolution_status FROM incidents ORDER BY incident_time DESC LIMIT 20"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 16 }
+    }
+  ],
+  "time": { "from": "now-24h", "to": "now" },
+  "refresh": "10s"
+}

@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  relay-agent:
+    extends:
+      file: docker-compose.yml
+      service: relay-agent
+  grafana:
+    build: ./grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+      - ./data/relay.db:/var/lib/grafana/relay.db:ro
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_INSTALL_PLUGINS=frser-sqlite-datasource
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    depends_on:
+      - relay-agent

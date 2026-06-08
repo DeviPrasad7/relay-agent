@@ -18,3 +18,4 @@ data/
 # OS files
 Thumbs.db
 desktop.ini
+.env
