@@ -15,6 +15,8 @@ func NewDetector(detectorType string, config map[string]interface{}) (Detector, 
 	switch detectorType {
 	case "error_spike":
 		d = &ErrorSpikeDetector{}
+	case "latency_degrade":
+		d = &LatencyDegradationDetector{}
 	default:
 		return nil, fmt.Errorf("unknown detector type: %s", detectorType)
 	}

@@ -6,7 +6,7 @@
 | 1     | COMPLETE | 92% (validator+api tests) | 2026-06-09 | Ingestion API with validation, tests passing |
 | 2     | COMPLETE | 78% (basic CRUD + retention) | 2026-06-09 | SQLite storage, repositories, retention job, integration tests passing |
 | 3     | COMPLETE | 85% (unit + integration) | 2026-06-09 | Error spike detection with TDD, config loading, factory |
-| 4     | NOT STARTED | - | - | Latency Degradation |
+| 4     | COMPLETE | 87% (unit + integration) | 2026-06-09 | Latency degradation detection with TDD, helper p95 function |
 | 5     | NOT STARTED | - | - | Heartbeat Failure |
 | 6     | NOT STARTED | - | - | Temporal Correlation |
 | 7     | NOT STARTED | - | - | Deployment Correlation |

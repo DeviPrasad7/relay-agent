@@ -15,6 +15,11 @@ type Config struct {
 			BaselineWindowMinutes int  `yaml:"baseline_window_minutes"`
 			StdDevMultiplier   float64 `yaml:"std_dev_multiplier"`
 		} `yaml:"error_spike"`
+		LatencyDegrade struct {
+			WindowMinutes       int     `yaml:"window_minutes"`
+			BaselineWindowMinutes int   `yaml:"baseline_window_minutes"`
+			ThresholdMultiplier float64 `yaml:"threshold_multiplier"`
+		} `yaml:"latency_degrade"`
 	} `yaml:"detection"`
 }
 
