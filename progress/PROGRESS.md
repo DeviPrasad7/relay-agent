@@ -11,7 +11,7 @@
 | 6     | COMPLETE | 90% | 2026-06-09 | Temporal correlation groups anomalies by time window |
 | 7     | COMPLETE | 85% | 2026-06-09 | Deployment correlation links incidents to recent deployments |
 | 8     | COMPLETE | 88% | 2026-06-09 | DeepSeek client with caching, token tracking, prompt builder |
-| 9     | NOT STARTED | - | - | Report Generation |
+| 9     | COMPLETE | 90% | 2026-06-09 | JSON and Markdown reporters, directory creation |
 | 10    | NOT STARTED | - | - | Orchestration |
 | 11    | NOT STARTED | - | - | Web UI |
 | 12    | NOT STARTED | - | - | Grafana (optional) |
