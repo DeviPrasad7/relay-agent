@@ -7,7 +7,7 @@
 | 2     | COMPLETE | 78% (basic CRUD + retention) | 2026-06-09 | SQLite storage, repositories, retention job, integration tests passing |
 | 3     | COMPLETE | 85% (unit + integration) | 2026-06-09 | Error spike detection with TDD, config loading, factory |
 | 4     | COMPLETE | 87% (unit + integration) | 2026-06-09 | Latency degradation detection with TDD, helper p95 function |
-| 5     | NOT STARTED | - | - | Heartbeat Failure |
+| 5     | COMPLETE | 88% (unit + integration) | 2026-06-09 | Heartbeat failure detection with per-service timeouts |
 | 6     | NOT STARTED | - | - | Temporal Correlation |
 | 7     | NOT STARTED | - | - | Deployment Correlation |
 | 8     | NOT STARTED | - | - | DeepSeek Integration |

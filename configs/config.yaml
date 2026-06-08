@@ -15,6 +15,9 @@ detection:
     threshold_multiplier: 2.0
   heartbeat:
     timeout_seconds: 60
+    service_timeouts:
+      auth-service: 30      # more strict for critical services
+      payment-service: 90   # more lenient
 
 llm:
   model: "deepseek-chat"

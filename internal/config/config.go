@@ -20,6 +20,10 @@ type Config struct {
 			BaselineWindowMinutes int   `yaml:"baseline_window_minutes"`
 			ThresholdMultiplier float64 `yaml:"threshold_multiplier"`
 		} `yaml:"latency_degrade"`
+		Heartbeat struct {
+			TimeoutSeconds  int            `yaml:"timeout_seconds"`
+			ServiceTimeouts map[string]int `yaml:"service_timeouts"`
+		} `yaml:"heartbeat"`
 	} `yaml:"detection"`
 }
 
