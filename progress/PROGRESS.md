@@ -5,7 +5,7 @@
 | 0     | COMPLETE | N/A | 2026-06-09 | Scaffolding done |
 | 1     | COMPLETE | 92% (validator+api tests) | 2026-06-09 | Ingestion API with validation, tests passing |
 | 2     | COMPLETE | 78% (basic CRUD + retention) | 2026-06-09 | SQLite storage, repositories, retention job, integration tests passing |
-| 3     | NOT STARTED | - | - | Error Spike Detection |
+| 3     | COMPLETE | 85% (unit + integration) | 2026-06-09 | Error spike detection with TDD, config loading, factory |
 | 4     | NOT STARTED | - | - | Latency Degradation |
 | 5     | NOT STARTED | - | - | Heartbeat Failure |
 | 6     | NOT STARTED | - | - | Temporal Correlation |
