@@ -2,40 +2,38 @@ package ingestion
 
 import (
 	"bytes"
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
 type mockLogStore struct {
-	storeFunc func(*LogEntry) error
+	storeFunc func(context.Context, *LogEntry) error
 }
-
-func (m *mockLogStore) StoreLog(log *LogEntry) error {
+func (m *mockLogStore) Store(ctx context.Context, log *LogEntry) error {
 	if m.storeFunc != nil {
-		return m.storeFunc(log)
+		return m.storeFunc(ctx, log)
 	}
 	return nil
 }
 
 type mockTraceStore struct {
-	storeFunc func(*TraceEntry) error
+	storeFunc func(context.Context, *TraceEntry) error
 }
-
-func (m *mockTraceStore) StoreTrace(trace *TraceEntry) error {
+func (m *mockTraceStore) Store(ctx context.Context, trace *TraceEntry) error {
 	if m.storeFunc != nil {
-		return m.storeFunc(trace)
+		return m.storeFunc(ctx, trace)
 	}
 	return nil
 }
 
 type mockEventStore struct {
-	storeFunc func(*EventEntry) error
+	storeFunc func(context.Context, *EventEntry) error
 }
-
-func (m *mockEventStore) StoreEvent(event *EventEntry) error {
+func (m *mockEventStore) Store(ctx context.Context, event *EventEntry) error {
 	if m.storeFunc != nil {
-		return m.storeFunc(event)
+		return m.storeFunc(ctx, event)
 	}
 	return nil
 }

@@ -1,39 +1,27 @@
-// Package ingestion provides HTTP handlers for log/trace/event ingestion.
-//
-// Responsibilities:
-//   - Parse JSON requests
-//   - Validate using validator
-//   - Store via repository interface (to be implemented in Phase 2)
-//
-// Dependencies: storage.LogRepository, storage.TraceRepository, storage.EventRepository (interfaces)
-//
-// Last updated: 2026-06-09
 package ingestion
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 )
 
-// Handler struct holds repository dependencies (interfaces from Phase 2)
-// For Phase 1, we use nil placeholders – tests will mock.
+// Minimal interfaces that match the storage repository methods.
+// These avoid an import cycle (ingestion does NOT import storage).
+type LogStorer interface {
+	Store(ctx context.Context, log *LogEntry) error
+}
+type TraceStorer interface {
+	Store(ctx context.Context, trace *TraceEntry) error
+}
+type EventStorer interface {
+	Store(ctx context.Context, event *EventEntry) error
+}
+
 type Handler struct {
-	logRepo   LogStorer   // will be replaced with storage.LogRepository
+	logRepo   LogStorer
 	traceRepo TraceStorer
 	eventRepo EventStorer
-}
-
-// LogStorer is a minimal interface for Phase 1 testing (to avoid importing storage package yet)
-type LogStorer interface {
-	StoreLog(log *LogEntry) error
-}
-
-type TraceStorer interface {
-	StoreTrace(trace *TraceEntry) error
-}
-
-type EventStorer interface {
-	StoreEvent(event *EventEntry) error
 }
 
 func NewHandler(logRepo LogStorer, traceRepo TraceStorer, eventRepo EventStorer) *Handler {
@@ -55,7 +43,7 @@ func (h *Handler) IngestLog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if h.logRepo != nil {
-		if err := h.logRepo.StoreLog(&log); err != nil {
+		if err := h.logRepo.Store(r.Context(), &log); err != nil {
 			http.Error(w, "Storage error", http.StatusInternalServerError)
 			return
 		}
@@ -75,7 +63,7 @@ func (h *Handler) IngestTrace(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if h.traceRepo != nil {
-		if err := h.traceRepo.StoreTrace(&trace); err != nil {
+		if err := h.traceRepo.Store(r.Context(), &trace); err != nil {
 			http.Error(w, "Storage error", http.StatusInternalServerError)
 			return
 		}
@@ -95,7 +83,7 @@ func (h *Handler) IngestEvent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if h.eventRepo != nil {
-		if err := h.eventRepo.StoreEvent(&event); err != nil {
+		if err := h.eventRepo.Store(r.Context(), &event); err != nil {
 			http.Error(w, "Storage error", http.StatusInternalServerError)
 			return
 		}
