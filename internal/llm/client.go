@@ -1,6 +1,3 @@
-// Package llm DeepSeek API client.
-//
-// Last updated: 2026-06-09
 package llm
 
 import (
@@ -13,32 +10,30 @@ import (
 	"time"
 )
 
-// DeepSeekClient implements LLMAnalyzer.
-type DeepSeekClient struct {
-	apiKey      string
-	baseURL     string
-	model       string
-	maxTokens   int
-	httpClient  *http.Client
-	tokenUsage  TokenUsage
+// OpenAICompatibleClient works with any OpenAI‑compatible API (DeepSeek, OpenAI, local).
+type OpenAICompatibleClient struct {
+	baseURL    string
+	apiKey     string
+	model      string
+	maxTokens  int
+	httpClient *http.Client
+	tokenUsage TokenUsage
 }
 
-// Config holds client configuration.
 type Config struct {
-	APIKey          string
-	BaseURL         string // default https://api.deepseek.com/v1
-	Model           string // default deepseek-chat
-	MaxTokens       int    // default 1000
-	TimeoutSeconds  int
+	BaseURL        string
+	APIKey         string
+	Model          string
+	MaxTokens      int
+	TimeoutSeconds int
 }
 
-// NewDeepSeekClient creates a new client.
-func NewDeepSeekClient(cfg Config) *DeepSeekClient {
+func NewOpenAICompatibleClient(cfg Config) *OpenAICompatibleClient {
 	if cfg.BaseURL == "" {
-		cfg.BaseURL = "https://api.deepseek.com/v1"
+		cfg.BaseURL = "https://api.openai.com/v1" // default
 	}
 	if cfg.Model == "" {
-		cfg.Model = "deepseek-chat"
+		cfg.Model = "gpt-3.5-turbo"
 	}
 	if cfg.MaxTokens == 0 {
 		cfg.MaxTokens = 1000
@@ -47,17 +42,15 @@ func NewDeepSeekClient(cfg Config) *DeepSeekClient {
 	if timeout == 0 {
 		timeout = 30 * time.Second
 	}
-	return &DeepSeekClient{
-		apiKey:     cfg.APIKey,
+	return &OpenAICompatibleClient{
 		baseURL:    cfg.BaseURL,
+		apiKey:     cfg.APIKey,
 		model:      cfg.Model,
 		maxTokens:  cfg.MaxTokens,
 		httpClient: &http.Client{Timeout: timeout},
-		tokenUsage: TokenUsage{},
 	}
 }
 
-// chatRequest represents DeepSeek API request body.
 type chatRequest struct {
 	Model       string    `json:"model"`
 	Messages    []message `json:"messages"`
@@ -70,7 +63,6 @@ type message struct {
 	Content string `json:"content"`
 }
 
-// chatResponse represents DeepSeek API response.
 type chatResponse struct {
 	Choices []struct {
 		Message struct {
@@ -87,21 +79,21 @@ type chatResponse struct {
 	} `json:"error,omitempty"`
 }
 
-// Analyze sends a prompt to DeepSeek and returns the response.
-func (c *DeepSeekClient) Analyze(ctx context.Context, anomalyContext string) (string, error) {
+func (c *OpenAICompatibleClient) Analyze(ctx context.Context, anomalyContext string) (string, error) {
 	reqBody := chatRequest{
 		Model: c.model,
 		Messages: []message{
 			{Role: "user", Content: anomalyContext},
 		},
 		MaxTokens:   c.maxTokens,
-		Temperature: 0.3, // deterministic for debugging
+		Temperature: 0.3,
 	}
 	jsonBody, err := json.Marshal(reqBody)
 	if err != nil {
 		return "", err
 	}
-	req, err := http.NewRequestWithContext(ctx, "POST", c.baseURL+"/chat/completions", bytes.NewReader(jsonBody))
+	url := c.baseURL + "/chat/completions"
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewReader(jsonBody))
 	if err != nil {
 		return "", err
 	}
@@ -124,7 +116,7 @@ func (c *DeepSeekClient) Analyze(ctx context.Context, anomalyContext string) (st
 		return "", err
 	}
 	if chatResp.Error.Message != "" {
-		return "", fmt.Errorf("DeepSeek error: %s", chatResp.Error.Message)
+		return "", fmt.Errorf("LLM error: %s", chatResp.Error.Message)
 	}
 	if len(chatResp.Choices) == 0 {
 		return "", fmt.Errorf("no choices in response")
@@ -136,13 +128,11 @@ func (c *DeepSeekClient) Analyze(ctx context.Context, anomalyContext string) (st
 	return chatResp.Choices[0].Message.Content, nil
 }
 
-// GetTokenUsage returns current token usage.
-func (c *DeepSeekClient) GetTokenUsage() TokenUsage {
+func (c *OpenAICompatibleClient) GetTokenUsage() TokenUsage {
 	return c.tokenUsage
 }
 
-// GetRemainingTokens returns remaining tokens before limit.
-func (c *DeepSeekClient) GetRemainingTokens(limit int) int {
+func (c *OpenAICompatibleClient) GetRemainingTokens(limit int) int {
 	remaining := limit - c.tokenUsage.TotalTokens
 	if remaining < 0 {
 		return 0

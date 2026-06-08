@@ -7,17 +7,16 @@ import (
 	"testing"
 )
 
-func TestDeepSeekClient_Analyze(t *testing.T) {
-	// Mock server
+func TestOpenAICompatibleClient_Analyze(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`{"choices":[{"message":{"content":"Root cause: database connection pool exhausted."}}],"usage":{"prompt_tokens":10,"completion_tokens":5,"total_tokens":15}}`))
 	}))
 	defer server.Close()
-	client := NewDeepSeekClient(Config{
-		APIKey:  "test-key",
-		BaseURL: server.URL,
-		Model:   "deepseek-chat",
+	client := NewOpenAICompatibleClient(Config{
+		APIKey:    "test-key",
+		BaseURL:   server.URL,
+		Model:     "gpt-3.5-turbo",
 		MaxTokens: 1000,
 	})
 	ctx := context.Background()
@@ -34,8 +33,8 @@ func TestDeepSeekClient_Analyze(t *testing.T) {
 	}
 }
 
-func TestDeepSeekClient_GetRemainingTokens(t *testing.T) {
-	client := &DeepSeekClient{tokenUsage: TokenUsage{TotalTokens: 100}}
+func TestOpenAICompatibleClient_GetRemainingTokens(t *testing.T) {
+	client := &OpenAICompatibleClient{tokenUsage: TokenUsage{TotalTokens: 100}}
 	remaining := client.GetRemainingTokens(500)
 	if remaining != 400 {
 		t.Errorf("expected 400, got %d", remaining)

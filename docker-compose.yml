@@ -5,10 +5,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+      - LLM_PROVIDER=mock
+      - DEEPSEEK_API_KEY=dummy   # optional, silences warning
     volumes:
       - ./data:/data
       - ./configs/config.yaml:/root/configs/config.yaml
     restart: unless-stopped
-
-  # mock services will be added later (Phase 2+)
