@@ -13,5 +13,5 @@
 | 8     | COMPLETE | 88% | 2026-06-09 | DeepSeek client with caching, token tracking, prompt builder |
 | 9     | COMPLETE | 90% | 2026-06-09 | JSON and Markdown reporters, directory creation |
 | 10    | COMPLETE | 70% (unit tests skipped; integration after all phases) | 2026-06-09 | Orchestration, scheduler, pipeline, idempotency |
-| 11    | NOT STARTED | - | - | Web UI |
+| 11    | COMPLETE | 90% | 2026-06-09 | HTML/JS Dashboard, UI server, health status |
 | 12    | NOT STARTED | - | - | Grafana (optional) |
