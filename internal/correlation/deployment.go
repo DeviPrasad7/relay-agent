@@ -22,21 +22,16 @@ func NewDeploymentCorrelator(windowSeconds int) *DeploymentCorrelator {
 	return &DeploymentCorrelator{windowSeconds: windowSeconds}
 }
 
-// Correlate adds deployment links to incident groups.
+// Correlate implements the Correlator interface.
+// It groups anomalies temporally and then links deployments.
 func (dc *DeploymentCorrelator) Correlate(ctx context.Context, input *CorrelationInput) ([]IncidentGroup, error) {
-	if len(input.Anomalies) == 0 {
-		return nil, nil
+	// First, temporal grouping
+	tc := NewTemporalCorrelator(input.TimeWindowSec)
+	groups, err := tc.Correlate(ctx, input)
+	if err != nil {
+		return nil, err
 	}
-	// First get temporal groups (if not already grouped)
-	var groups []IncidentGroup
-	if len(input.Anomalies) > 0 {
-		tc := NewTemporalCorrelator(input.TimeWindowSec)
-		var err error
-		groups, err = tc.Correlate(ctx, input)
-		if err != nil {
-			return nil, err
-		}
-	}
+	// Then link deployments
 	return dc.linkDeployments(groups, input.DeploymentEvents, input.DeploymentWindowSec), nil
 }
 
