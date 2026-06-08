@@ -8,9 +8,9 @@
 | 3     | COMPLETE | 85% (unit + integration) | 2026-06-09 | Error spike detection with TDD, config loading, factory |
 | 4     | COMPLETE | 87% (unit + integration) | 2026-06-09 | Latency degradation detection with TDD, helper p95 function |
 | 5     | COMPLETE | 88% (unit + integration) | 2026-06-09 | Heartbeat failure detection with per-service timeouts |
-| 6     | NOT STARTED | - | - | Temporal Correlation |
-| 7     | NOT STARTED | - | - | Deployment Correlation |
-| 8     | NOT STARTED | - | - | DeepSeek Integration |
+| 6     | COMPLETE | 90% | 2026-06-09 | Temporal correlation groups anomalies by time window |
+| 7     | COMPLETE | 85% | 2026-06-09 | Deployment correlation links incidents to recent deployments |
+| 8     | COMPLETE | 88% | 2026-06-09 | DeepSeek client with caching, token tracking, prompt builder |
 | 9     | NOT STARTED | - | - | Report Generation |
 | 10    | NOT STARTED | - | - | Orchestration |
 | 11    | NOT STARTED | - | - | Web UI |
