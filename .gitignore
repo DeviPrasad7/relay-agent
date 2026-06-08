@@ -1,0 +1,20 @@
+# Binaries
+bin/
+relay
+
+# Databases and data directories
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+Thumbs.db
+desktop.ini

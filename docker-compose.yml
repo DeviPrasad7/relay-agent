@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  relay-agent:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+    volumes:
+      - ./data:/data
+      - ./configs/config.yaml:/root/configs/config.yaml
+    restart: unless-stopped
+
+  # mock services will be added later (Phase 2+)
